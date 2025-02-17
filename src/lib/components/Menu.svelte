@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import Button from './Button.svelte';
 
 	export let onClick: () => void = () => {};
@@ -14,18 +15,18 @@
 <div class="relative h-screen w-screen {menuOpen ? 'opacity-100' : 'opacity-0'}">
 	<div class="menu-layout">
 		{#each menuItems as item, index}
-			<div
+			<button
 				class="menu-item {menuOpen ? 'glitch-in' : ''}"
 				data-title={item.title}
 				style="--item-delay: {index * 0.2}s"
+				on:click={() => goto(item.link)}
 			>
-				<a
-					href={item.link}
+				<p
 					class="flex h-full w-full items-center justify-center text-3xl text-white transition-all duration-500"
 				>
 					{item.title}
-				</a>
-			</div>
+				</p>
+			</button>
 		{/each}
 		<div class="button-container">
 			<div class="button-back">
@@ -222,7 +223,6 @@
 		justify-content: center;
 		align-items: center;
 		border: 1px solid var(--border-color);
-		z-index: 20;
 	}
 
 	.button-container:hover {
