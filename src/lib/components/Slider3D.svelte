@@ -7,9 +7,10 @@
 	export let imageClass: string = '';
 	export let speed: number = 20;
 	export let onClick: () => void = () => {};
+	export let menuOpen: boolean = false;
 </script>
 
-<div class="relative">
+<div class="relative {menuOpen ? 'opacity-0' : 'opacity-100'}">
 	<div
 		class="slider absolute top-120 left-1/2 h-[300px] w-[240px] -translate-x-1/2 -translate-y-1/2 {containerClass}"
 		style="--quantity: {quantity}; --speed: {speed}s;"
@@ -58,7 +59,7 @@
 			transform: perspective(3000px) rotateX(-20deg) rotateY(360deg);
 		}
 	}
-				
+
 	.item {
 		transform: rotateY(calc((var(--position) - 1) * (360 / var(--quantity)) * 1deg))
 			translateZ(1100px);

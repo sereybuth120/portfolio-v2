@@ -1,6 +1,5 @@
 <script lang="ts">
 	import Menu from '$lib/components/Menu.svelte';
-	import MenuGrid from '$lib/components/MenuGrid.svelte';
 	import Slider3D from '$lib/components/Slider3D.svelte';
 	const dragonImages = Array.from(
 		{ length: 9 },
@@ -18,11 +17,13 @@
 </script>
 
 <div class="relative h-[100vh] w-full overflow-hidden bg-[#2D3436] text-center">
-	{#if showMenu}
+	<!-- {#if showMenu}
 		<Menu onClick={handleClick} />
 	{:else}
 		<Slider3D images={dragonImages} onClick={handleClick} />
-	{/if}
+	{/if} -->
+	<Slider3D images={dragonImages} onClick={handleClick} menuOpen={showMenu} />
+	<Menu onClick={handleClick} menuOpen={showMenu} />
 </div>
 
 <style>
