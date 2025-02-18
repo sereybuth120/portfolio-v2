@@ -17,11 +17,6 @@
 </script>
 
 <div class="relative h-[100vh] w-full overflow-hidden bg-[#2D3436] text-center">
-	<!-- {#if showMenu}
-		<Menu onClick={handleClick} />
-	{:else}
-		<Slider3D images={dragonImages} onClick={handleClick} />
-	{/if} -->
 	<Slider3D images={dragonImages} onClick={handleClick} menuOpen={showMenu} />
 	<Menu onClick={handleClick} menuOpen={showMenu} />
 </div>

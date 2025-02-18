@@ -42,13 +42,60 @@
 		--border-color: rgba(231, 231, 231, 0.1);
 		--hover-color: #ffd700;
 		--bg-color: #2d3436;
-		--glitch-duration: 0.4s;
+		--glitch-duration: 0.3s;
+		--total-load-time: 1.2s; /* 4 items * 0.2s delay + 0.4s animation */
+	}
+
+	@keyframes noise {
+		0%,
+		100% {
+			background-position: 0 0;
+		}
+		10% {
+			background-position: -5% -10%;
+		}
+		20% {
+			background-position: -15% 5%;
+		}
+		30% {
+			background-position: 7% -25%;
+		}
+		40% {
+			background-position: 20% 25%;
+		}
+		50% {
+			background-position: -25% 10%;
+		}
+		60% {
+			background-position: 15% 5%;
+		}
+		70% {
+			background-position: 0% 15%;
+		}
+		80% {
+			background-position: 25% 35%;
+		}
+		90% {
+			background-position: -10% 10%;
+		}
 	}
 
 	.menu-layout {
 		position: relative;
 		width: 100%;
 		height: 100%;
+		pointer-events: none; /* Disable all interactions initially */
+		animation: enableInteraction var(--total-load-time) forwards;
+	}
+
+	@keyframes enableInteraction {
+		0%,
+		99% {
+			pointer-events: none;
+		}
+		100% {
+			pointer-events: all;
+		}
 	}
 
 	.menu-item {
@@ -59,10 +106,12 @@
 		opacity: 0;
 		visibility: hidden;
 		filter: blur(0);
+		transform-style: preserve-3d;
+		perspective: 1000px;
 	}
 
 	.glitch-in {
-		animation: glitchIn var(--glitch-duration) forwards;
+		animation: glitchIn var(--glitch-duration) steps(2) forwards;
 		animation-delay: var(--item-delay);
 		visibility: visible;
 	}
@@ -70,87 +119,76 @@
 	@keyframes glitchIn {
 		0% {
 			opacity: 0;
-			transform: scale(0.8);
-			filter: blur(4px);
-			clip-path: inset(0 0 100% 0);
-		}
-		15% {
-			opacity: 0.4;
-			transform: scale(1.2) skew(10deg);
-			filter: blur(2px);
-			clip-path: inset(0 0 50% 0);
+			transform: scale(0.95) translateX(-5px);
+			filter: brightness(1.5);
 		}
 		20% {
-			opacity: 0.6;
-			transform: scale(1.1) skew(-5deg);
-			filter: blur(0);
-			clip-path: inset(0 0 0 0);
+			opacity: 0.5;
+			transform: scale(1.02) translateX(4px) skewX(2deg);
+			filter: brightness(1.2);
 		}
-		25% {
-			opacity: 0.4;
-			transform: scale(0.9) skew(5deg);
-			filter: blur(2px);
-		}
-		35% {
+		40% {
 			opacity: 0.8;
-			transform: scale(1.05) skew(-2deg);
-			filter: blur(0);
+			transform: scale(0.98) translateX(-3px) skewX(-2deg);
+			filter: brightness(1.4);
 		}
-		45% {
-			opacity: 0.6;
-			transform: scale(1);
-			filter: blur(1px);
+		60% {
+			opacity: 1;
+			transform: scale(1) translateX(2px);
+			filter: brightness(1.1);
 		}
-		60%,
+		80% {
+			transform: translateX(-2px);
+		}
 		100% {
 			opacity: 1;
-			transform: scale(1);
-			filter: blur(0);
-			clip-path: inset(0 0 0 0);
+			transform: scale(1) translateX(0);
+			filter: none;
 		}
 	}
 
-	.menu-item::before,
-	.menu-item::after {
+	.glitch-in::before,
+	.glitch-in::after {
 		content: '';
 		position: absolute;
 		inset: 0;
-		background: var(--bg-color);
-		border: 2px solid var(--border-color);
-		opacity: 0;
+		background: inherit;
+		border: inherit;
+		pointer-events: none;
+		z-index: -1;
 	}
 
 	.glitch-in::before {
-		animation: glitchBefore 0.2s steps(2) forwards;
+		background: linear-gradient(90deg, transparent, rgba(255, 0, 128, 0.1));
+		animation: glitchBefore 0.3s steps(2) forwards;
 		animation-delay: calc(var(--item-delay) + 0.1s);
+		mix-blend-mode: screen;
+		transform: translateX(-3px);
 	}
 
 	.glitch-in::after {
-		animation: glitchAfter 0.2s steps(2) forwards;
-		animation-delay: calc(var(--item-delay) + 0.1s);
+		background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.1));
+		animation: glitchAfter 0.3s steps(2) forwards;
+		animation-delay: calc(var(--item-delay) + 0.15s);
+		mix-blend-mode: screen;
+		transform: translateX(3px);
 	}
 
 	@keyframes glitchBefore {
 		0%,
 		100% {
 			opacity: 0;
-			transform: translate(0);
+			transform: translateX(0);
 		}
-		20% {
-			opacity: 0.4;
-			transform: translate(-4px, 2px);
-		}
-		40% {
-			opacity: 0.2;
-			transform: translate(4px, -2px);
-		}
-		60% {
-			opacity: 0.3;
-			transform: translate(2px, 4px);
-		}
+		20%,
 		80% {
+			opacity: 0.2;
+			transform: translateX(-3px);
+		}
+		40%,
+		60% {
 			opacity: 0.1;
-			transform: translate(-2px, -4px);
+			transform: translateX(3px);
 		}
 	}
 
@@ -158,23 +196,17 @@
 		0%,
 		100% {
 			opacity: 0;
-			transform: translate(0);
+			transform: translateX(0);
 		}
-		20% {
-			opacity: 0.3;
-			transform: translate(4px, -2px);
-		}
-		40% {
-			opacity: 0.2;
-			transform: translate(-4px, 2px);
-		}
-		60% {
-			opacity: 0.4;
-			transform: translate(-2px, -4px);
-		}
+		20%,
 		80% {
+			opacity: 0.2;
+			transform: translateX(3px);
+		}
+		40%,
+		60% {
 			opacity: 0.1;
-			transform: translate(2px, 4px);
+			transform: translateX(-3px);
 		}
 	}
 
@@ -223,6 +255,8 @@
 		justify-content: center;
 		align-items: center;
 		border: 1px solid var(--border-color);
+		pointer-events: none; /* Disable button container interactions initially */
+		animation: enableInteraction var(--total-load-time) forwards;
 	}
 
 	.button-container:hover {
