@@ -39,7 +39,7 @@
 		>
 			Hout Sereybuth
 		</h4>
-		<Button on:click={onClick}>Contact Me</Button>
+		<Button on:click={onClick}>Menu</Button>
 	</div>
 </div>
 
