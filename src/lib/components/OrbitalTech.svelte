@@ -1,7 +1,5 @@
 <script lang="ts">
-	import Button from './Button.svelte';
-
-	export let onClick: () => void = () => {};
+	export const onClick: () => void = () => {};
 	export let menuOpen: boolean = false;
 
 	// Split icons between two rings
@@ -34,52 +32,71 @@
 </script>
 
 <div class="relative {menuOpen ? 'opacity-0' : 'scene opacity-100'}">
-	<!-- Primary Ring -->
-	<div
-		class="slider primary-ring absolute top-120 left-1/2 h-[300px] w-[240px] -translate-x-1/2 -translate-y-1/2"
-		style="--quantity: {primaryQuantity}; --speed: {20}s;"
-	>
-		{#each primaryRingIcons as icon, index}
-			<div class="item absolute inset-0" style="--position: {index + 1}">
-				<i class="{icon} icon-spin text-6xl text-white"></i>
+	<div class="orbital-container absolute top-1/2 right-[10%] -translate-y-1/2">
+		<!-- Primary Ring -->
+		<div
+			class="slider primary-ring absolute h-[300px] w-[240px]"
+			style="--quantity: {primaryQuantity}; --speed: {20}s;"
+		>
+			{#each primaryRingIcons as icon, index}
+				<div class="item absolute inset-0" style="--position: {index + 1}">
+					<i class="{icon} icon-spin text-6xl text-white"></i>
+				</div>
+			{/each}
+		</div>
+
+		<!-- Secondary Ring -->
+		<div
+			class="slider secondary-ring absolute h-[300px] w-[240px]"
+			style="--quantity: {secondaryQuantity}; --speed: {20}s;"
+		>
+			{#each secondaryRingIcons as icon, index}
+				<div class="item absolute inset-0" style="--position: {index + 1}">
+					<i class="{icon} icon-spin text-5xl text-red-500"></i>
+				</div>
+			{/each}
+		</div>
+
+		<div class="h-[200px] w-[200px]">
+			<div class="planet">
+				<i class="devicon-javascript-plain"></i>
+				<i class="devicon-typescript-plain"></i>
+				<i class="devicon-python-plain"></i>
 			</div>
-		{/each}
+		</div>
 	</div>
 
-	<!-- Secondary Ring -->
-	<div
-		class="slider secondary-ring absolute top-120 left-1/2 h-[300px] w-[240px] -translate-x-1/2 -translate-y-1/2"
-		style="--quantity: {secondaryQuantity}; --speed: {20}s;"
-	>
-		{#each secondaryRingIcons as icon, index}
-			<div class="item absolute inset-0" style="--position: {index + 1}">
-				<i class="{icon} icon-spin text-5xl text-red-500"></i>
-			</div>
-		{/each}
-	</div>
-
-	<div class="content absolute top-130 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center">
-		<h1
-			class="relative leading-tight whitespace-nowrap text-yellow-500"
-			data-content="HOUT SEREYBUTH"
-		>
-			WEB DEVELOPER
-		</h1>
-		<h4
-			class="relative mt-4 leading-tight whitespace-nowrap text-yellow-500"
-			data-content="HOUT SEREYBUTH"
-		>
-			Hout Sereybuth
-		</h4>
-		<Button on:click={onClick}>Menu</Button>
+	<div class="z-1 mt-10 flex h-screen flex-col items-start justify-center border-2">
+		<h4 class="text-[10rem] text-yellow-500" data-content="Web">Web</h4>
+		<h4 class="mt-25 text-[10rem] text-red-500" data-content="Developer">Developer</h4>
 	</div>
 </div>
 
 <style>
+	.planet {
+		width: 100%;
+		height: 100%;
+		border-radius: 50%;
+		position: relative;
+		overflow: hidden;
+		background: conic-gradient(
+			from 120deg,
+			#f7df1e 0deg 120deg,
+			#3178c6 120deg 240deg,
+			#4b8bbe 240deg 360deg
+		);
+	}
+
 	.scene {
 		perspective: 3000px;
 		transform-style: preserve-3d;
 		min-height: 100vh;
+	}
+
+	.orbital-container {
+		transform-style: preserve-3d;
+		width: 300px;
+		height: 300px;
 	}
 
 	.slider {
@@ -107,19 +124,19 @@
 
 	@keyframes primaryRingRotation {
 		from {
-			transform: rotateZ(20deg) rotateX(-5deg) rotateY(0deg);
+			transform: rotateZ(30deg) rotateX(-5deg) rotateY(0deg);
 		}
 		to {
-			transform: rotateZ(20deg) rotateX(-5deg) rotateY(360deg);
+			transform: rotateZ(30deg) rotateX(-5deg) rotateY(360deg);
 		}
 	}
 
 	@keyframes secondaryRingRotation {
 		from {
-			transform: rotateZ(-20deg) rotateX(-5deg) rotateY(0deg);
+			transform: rotateZ(-30deg) rotateX(-5deg) rotateY(0deg);
 		}
 		to {
-			transform: rotateZ(-20deg) rotateX(-5deg) rotateY(-360deg);
+			transform: rotateZ(-30deg) rotateX(-5deg) rotateY(-360deg);
 		}
 	}
 
@@ -150,6 +167,9 @@
 
 	/* Media queries for responsive sizing */
 	@media screen and (min-width: 1441px) {
+		.orbital-container {
+			right: 15%;
+		}
 		.slider {
 			height: 300px;
 			width: 240px;
@@ -157,11 +177,17 @@
 		.item,
 		.secondary-ring .item {
 			transform: rotateY(calc((var(--position) - 1) * (360 / var(--quantity)) * 1deg))
-				translateZ(30vw);
+				translateZ(20vw);
 		}
 	}
 
 	@media screen and (max-width: 1440px) {
+		.orbital-container {
+			right: 10%;
+		}
+		.text-container {
+			left: -25rem;
+		}
 		.slider {
 			height: 250px;
 			width: 200px;
@@ -174,6 +200,12 @@
 	}
 
 	@media screen and (max-width: 1023px) {
+		.orbital-container {
+			right: 5%;
+		}
+		.text-container {
+			left: -20rem;
+		}
 		.slider {
 			height: 200px;
 			width: 170px;
@@ -186,6 +218,12 @@
 	}
 
 	@media screen and (max-width: 767px) {
+		.orbital-container {
+			right: 2%;
+		}
+		.text-container {
+			left: -15rem;
+		}
 		.slider {
 			height: 140px;
 			width: 160px;
