@@ -1,13 +1,25 @@
 <script lang="ts">
 	import Button from './Button.svelte';
 
-	export let images: string[] = [];
-	export let quantity: number = images.length;
-	export let containerClass: string = '';
-	export let imageClass: string = '';
-	export let speed: number = 20;
 	export let onClick: () => void = () => {};
 	export let menuOpen: boolean = false;
+
+	let devIcons = [
+		'devicon-svelte-plain',
+		'devicon-react-original',
+		'devicon-nextjs-plain',
+		'devicon-tailwindcss-plain',
+		'devicon-sass-original',
+		'devicon-typescript-plain',
+		'devicon-nodejs-plain',
+		'devicon-express-original',
+		'devicon-mongodb-plain',
+		'devicon-mysql-plain',
+		'devicon-postgresql-plain'
+	];
+	let containerClass: string = '';
+	let quantity: number = devIcons.length;
+	let speed: number = 20;
 </script>
 
 <div class="relative {menuOpen ? 'opacity-0' : 'opacity-100'}">
@@ -15,13 +27,9 @@
 		class="slider absolute top-120 left-1/2 h-[300px] w-[240px] -translate-x-1/2 -translate-y-1/2 {containerClass}"
 		style="--quantity: {quantity}; --speed: {speed}s;"
 	>
-		{#each images as image, index}
+		{#each devIcons as icon, index}
 			<div class="item absolute inset-0" style="--position: {index + 1}">
-				<img
-					src={image}
-					alt="Slide {index + 1}"
-					class="h-full w-full rounded-lg object-cover shadow-xl {imageClass}"
-				/>
+				<i class="{icon} icon-spin text-7xl text-white"></i>
 			</div>
 		{/each}
 	</div>
@@ -65,8 +73,28 @@
 			translateZ(1100px);
 		transition: transform 0.5s ease-in-out;
 		will-change: transform;
-		width: 130%;
-		height: 130%;
+		width: 120%;
+		height: 120%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		transform-style: preserve-3d;
+	}
+
+	.icon-spin {
+		display: inline-block;
+		animation: spinSelf 8s linear infinite;
+		transform-style: preserve-3d;
+		backface-visibility: visible;
+	}
+
+	@keyframes spinSelf {
+		from {
+			/* transform: rotateY(0deg); */
+		}
+		to {
+			/* transform: rotateY(360deg); */
+		}
 	}
 
 	h1 {
@@ -87,7 +115,7 @@
 		}
 		.item {
 			transform: rotateY(calc((var(--position) - 1) * (360 / var(--quantity)) * 1deg))
-				translateZ(1100px);
+				translateZ(900px);
 		}
 	}
 

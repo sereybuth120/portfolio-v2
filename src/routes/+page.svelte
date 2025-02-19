@@ -2,14 +2,8 @@
 	import { browser } from '$app/environment';
 	import { page } from '$app/stores';
 	import Menu from '$lib/components/Menu.svelte';
-	import Slider3D from '$lib/components/Slider3D.svelte';
+	import Slider3D from '$lib/components/OrbitalTech.svelte';
 	import { onMount } from 'svelte';
-
-	const dragonImages = Array.from(
-		{ length: 9 },
-		(_, i) =>
-			`https://raw.githubusercontent.com/HoanghoDev/youtube_v2/refs/heads/main/slider_3d/images/dragon_${i + 1}.jpg`
-	);
 
 	let showMenu = false;
 
@@ -50,7 +44,7 @@
 </script>
 
 <div class="relative h-[100vh] w-full overflow-hidden bg-[#2D3436] text-center">
-	<Slider3D images={dragonImages} onClick={handleClick} menuOpen={showMenu} />
+	<Slider3D onClick={handleClick} menuOpen={showMenu} />
 	<Menu onClick={handleClick} menuOpen={showMenu} />
 </div>
 
