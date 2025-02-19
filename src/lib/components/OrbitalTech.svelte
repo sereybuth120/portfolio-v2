@@ -4,45 +4,69 @@
 	export let onClick: () => void = () => {};
 	export let menuOpen: boolean = false;
 
-	let devIcons = [
-		'devicon-svelte-plain',
-		'devicon-react-original',
+	// Split icons between two rings
+	let primaryRingIcons = [
+		'devicon-react-plain',
 		'devicon-nextjs-plain',
-		'devicon-tailwindcss-plain',
+		'devicon-svelte-plain',
+		'devicon-redux-original',
+		'devicon-css3-plain',
 		'devicon-sass-original',
-		'devicon-typescript-plain',
-		'devicon-nodejs-plain',
-		'devicon-express-original',
-		'devicon-mongodb-plain',
-		'devicon-mysql-plain',
-		'devicon-postgresql-plain'
+		'devicon-tailwindcss-original',
+		'devicon-materialui-plain',
+		'devicon-playwright-plain'
 	];
-	let containerClass: string = '';
-	let quantity: number = devIcons.length;
-	let speed: number = 20;
+
+	let secondaryRingIcons = [
+		'devicon-nodejs-plain-wordmark',
+		'devicon-express-original',
+		'devicon-denojs-original',
+		'devicon-nestjs-plain',
+		'devicon-redis-plain',
+		'devicon-mongodb-plain',
+		'devicon-postgresql-plain',
+		'devicon-docker-plain',
+		'devicon-firebase-plain'
+	];
+
+	let primaryQuantity: number = primaryRingIcons.length;
+	let secondaryQuantity: number = secondaryRingIcons.length;
 </script>
 
-<div class="relative {menuOpen ? 'opacity-0' : 'opacity-100'}">
+<div class="relative {menuOpen ? 'opacity-0' : 'scene opacity-100'}">
+	<!-- Primary Ring -->
 	<div
-		class="slider absolute top-120 left-1/2 h-[300px] w-[240px] -translate-x-1/2 -translate-y-1/2 {containerClass}"
-		style="--quantity: {quantity}; --speed: {speed}s;"
+		class="slider primary-ring absolute top-120 left-1/2 h-[300px] w-[240px] -translate-x-1/2 -translate-y-1/2"
+		style="--quantity: {primaryQuantity}; --speed: {20}s;"
 	>
-		{#each devIcons as icon, index}
+		{#each primaryRingIcons as icon, index}
 			<div class="item absolute inset-0" style="--position: {index + 1}">
-				<i class="{icon} icon-spin text-7xl text-white"></i>
+				<i class="{icon} icon-spin text-6xl text-white"></i>
 			</div>
 		{/each}
 	</div>
 
-	<div class="content absolute top-150 left-1/2 z-10 -translate-x-1/2 -translate-y-1/2 text-center">
+	<!-- Secondary Ring -->
+	<div
+		class="slider secondary-ring absolute top-120 left-1/2 h-[300px] w-[240px] -translate-x-1/2 -translate-y-1/2"
+		style="--quantity: {secondaryQuantity}; --speed: {20}s;"
+	>
+		{#each secondaryRingIcons as icon, index}
+			<div class="item absolute inset-0" style="--position: {index + 1}">
+				<i class="{icon} icon-spin text-5xl text-red-500"></i>
+			</div>
+		{/each}
+	</div>
+
+	<div class="content absolute top-130 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center">
 		<h1
-			class="relative leading-tight whitespace-nowrap text-[#25283B]"
+			class="relative leading-tight whitespace-nowrap text-yellow-500"
 			data-content="HOUT SEREYBUTH"
 		>
 			WEB DEVELOPER
 		</h1>
 		<h4
-			class="relative mt-4 leading-tight whitespace-nowrap text-[#25283B]"
+			class="relative mt-4 leading-tight whitespace-nowrap text-yellow-500"
 			data-content="HOUT SEREYBUTH"
 		>
 			Hout Sereybuth
@@ -52,25 +76,56 @@
 </div>
 
 <style>
-	.slider {
+	.scene {
+		perspective: 3000px;
 		transform-style: preserve-3d;
-		transform: perspective(3000px);
-		animation: autoRun var(--speed) linear infinite;
-		z-index: 20;
+		min-height: 100vh;
 	}
 
-	@keyframes autoRun {
+	.slider {
+		transform-style: preserve-3d;
+		z-index: 0;
+	}
+
+	.content {
+		transform-style: preserve-3d;
+		transform: translateZ(0);
+		z-index: 1;
+		background: rgba(53, 54, 45, 0.8);
+		backdrop-filter: blur(20px);
+		padding: 2rem;
+		border-radius: 50%;
+	}
+
+	.primary-ring {
+		animation: primaryRingRotation var(--speed) linear infinite;
+	}
+
+	.secondary-ring {
+		animation: secondaryRingRotation var(--speed) linear infinite;
+	}
+
+	@keyframes primaryRingRotation {
 		from {
-			transform: perspective(3000px) rotateX(-20deg) rotateY(0deg);
+			transform: rotateZ(20deg) rotateX(-5deg) rotateY(0deg);
 		}
 		to {
-			transform: perspective(3000px) rotateX(-20deg) rotateY(360deg);
+			transform: rotateZ(20deg) rotateX(-5deg) rotateY(360deg);
+		}
+	}
+
+	@keyframes secondaryRingRotation {
+		from {
+			transform: rotateZ(-20deg) rotateX(-5deg) rotateY(0deg);
+		}
+		to {
+			transform: rotateZ(-20deg) rotateX(-5deg) rotateY(-360deg);
 		}
 	}
 
 	.item {
 		transform: rotateY(calc((var(--position) - 1) * (360 / var(--quantity)) * 1deg))
-			translateZ(1100px);
+			translateZ(500px);
 		transition: transform 0.5s ease-in-out;
 		will-change: transform;
 		width: 120%;
@@ -79,79 +134,66 @@
 		align-items: center;
 		justify-content: center;
 		transform-style: preserve-3d;
+		backface-visibility: visible;
+	}
+
+	.secondary-ring .item {
+		transform: rotateY(calc((var(--position) - 1) * (360 / var(--quantity)) * 1deg))
+			translateZ(500px);
 	}
 
 	.icon-spin {
 		display: inline-block;
-		animation: spinSelf 8s linear infinite;
 		transform-style: preserve-3d;
 		backface-visibility: visible;
 	}
 
-	@keyframes spinSelf {
-		from {
-			/* transform: rotateY(0deg); */
-		}
-		to {
-			/* transform: rotateY(360deg); */
-		}
-	}
-
-	h1 {
-		font-size: clamp(2rem, 6vw, 7rem);
-		text-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-	}
-
-	h4 {
-		font-size: clamp(1rem, 3vw, 2rem);
-		text-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
-	}
-
-	/* Large screens */
+	/* Media queries for responsive sizing */
 	@media screen and (min-width: 1441px) {
 		.slider {
 			height: 300px;
 			width: 240px;
 		}
-		.item {
+		.item,
+		.secondary-ring .item {
 			transform: rotateY(calc((var(--position) - 1) * (360 / var(--quantity)) * 1deg))
-				translateZ(900px);
+				translateZ(30vw);
 		}
 	}
 
-	/* Medium screens */
 	@media screen and (max-width: 1440px) {
 		.slider {
 			height: 250px;
 			width: 200px;
 		}
-		.item {
+		.item,
+		.secondary-ring .item {
 			transform: rotateY(calc((var(--position) - 1) * (360 / var(--quantity)) * 1deg))
-				translateZ(900px);
+				translateZ(450px);
 		}
 	}
 
-	/* Tablet */
 	@media screen and (max-width: 1023px) {
 		.slider {
 			height: 200px;
 			width: 170px;
 		}
-		.item {
+		.item,
+		.secondary-ring .item {
 			transform: rotateY(calc((var(--position) - 1) * (360 / var(--quantity)) * 1deg))
-				translateZ(700px);
+				translateZ(400px);
 		}
 	}
 
-	/* Mobile */
 	@media screen and (max-width: 767px) {
 		.slider {
 			height: 140px;
 			width: 160px;
 		}
-		.item {
+		.item,
+		.secondary-ring .item {
 			transform: rotateY(calc((var(--position) - 1) * (360 / var(--quantity)) * 1deg))
-				translateZ(500px);
+				translateZ(50vw);
 		}
 	}
 </style>
