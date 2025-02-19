@@ -1,6 +1,15 @@
 <script lang="ts">
-	import Card from '$lib/components/Card.svelte';
 	import Button from '$lib/components/Button.svelte';
+	import Card from '$lib/components/Card.svelte';
+	import { onMount } from 'svelte';
+
+	let isLoaded = false;
+
+	onMount(() => {
+		setTimeout(() => {
+			isLoaded = true;
+		}, 100);
+	});
 
 	const works = [
 		{
@@ -21,7 +30,11 @@
 	];
 </script>
 
-<div class="container mx-auto px-4 py-8">
+<div
+	class="mx-auto h-screen w-full px-4 py-8 transition-opacity duration-500"
+	class:opacity-0={!isLoaded}
+	style="background-color: #ffd700"
+>
 	<h1 class="mb-8 text-4xl font-bold">My Works</h1>
 
 	<div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">

@@ -4,28 +4,71 @@
 
 	export let onClick: () => void = () => {};
 	export let menuOpen: boolean = false;
+
+	let navigatingTo: string | null = null;
+	let isTransitioning = false;
+
 	const menuItems = [
 		{ title: 'WORKS', link: '/works' },
 		{ title: 'ABOUT', link: '/about' },
 		{ title: 'SKILLS', link: '/skills' },
 		{ title: 'CONNECT', link: '/connect' }
 	];
+
+	async function handleNavigation(link: string, title: string) {
+		if (!document.startViewTransition) {
+			goto(link);
+			return;
+		}
+
+		navigatingTo = title;
+		isTransitioning = true;
+
+		// Add a delay before starting the transition
+		await new Promise((resolve) => setTimeout(resolve, 1000));
+
+		// Start view transition
+		const transition = document.startViewTransition(async () => {
+			await goto(link);
+		});
+
+		try {
+			await transition.finished;
+		} catch (error) {
+			console.error('Transition failed:', error);
+		} finally {
+			// Only reset after a delay to ensure smooth transition
+			setTimeout(() => {
+				navigatingTo = null;
+				isTransitioning = false;
+			}, 100);
+		}
+	}
 </script>
 
 <div class="relative h-screen w-screen {menuOpen ? 'opacity-100' : 'opacity-0'}">
-	<div class="menu-layout">
+	<div class="menu-layout" class:is-navigating={navigatingTo !== null || isTransitioning}>
 		{#each menuItems as item, index}
 			<button
 				class="menu-item {menuOpen ? 'glitch-in' : ''}"
+				class:is-navigating-to={navigatingTo === item.title}
 				data-title={item.title}
-				style="--item-delay: {index * 0.2}s"
-				on:click={() => goto(item.link)}
+				style="--item-delay: {index * 0.2}s; view-transition-name: menu-{item.title.toLowerCase()}"
+				on:click={() => handleNavigation(item.link, item.title)}
 			>
-				<p
-					class="flex h-full w-full items-center justify-center text-3xl text-white transition-all duration-500"
-				>
-					{item.title}
-				</p>
+				{#if isTransitioning && navigatingTo === item.title}
+					<p
+						class="flex h-full w-full items-center justify-center text-5xl text-red-500 transition-all duration-500"
+					>
+						{item.title}
+					</p>
+				{:else}
+					<p
+						class="flex h-full w-full items-center justify-center text-3xl text-white transition-all duration-500"
+					>
+						{item.title}
+					</p>
+				{/if}
 			</button>
 		{/each}
 		<div class="button-container">
@@ -108,6 +151,7 @@
 		filter: blur(0);
 		transform-style: preserve-3d;
 		perspective: 1000px;
+		contain: paint;
 	}
 
 	.glitch-in {
@@ -388,5 +432,85 @@
 	.menu-layout:has(.menu-item[data-title='CONNECT']:hover) .button-container {
 		top: 35vh;
 		left: 40%;
+	}
+
+	.menu-layout.is-navigating .menu-item:not(.is-navigating-to) {
+		opacity: 0;
+		transform: translateX(-100vw);
+		transition: all 0.3s ease-in-out;
+		pointer-events: none;
+	}
+
+	.menu-layout.is-navigating .menu-item.is-navigating-to {
+		width: 100vw !important;
+		height: 100vh !important;
+		left: 0 !important;
+		top: 0 !important;
+		transition: all 0.3s ease-in-out;
+		pointer-events: none;
+		z-index: 50;
+	}
+
+	.menu-layout.is-navigating .button-container {
+		opacity: 0;
+		transform: translateY(100vh);
+		transition: all 0.3s ease-in-out;
+		pointer-events: none;
+	}
+
+	/* WORKS navigation effect */
+	.menu-layout.is-navigating:has(.menu-item[data-title='WORKS'].is-navigating-to)
+		.menu-item[data-title='ABOUT'] {
+		transform: translateX(100vw);
+	}
+	.menu-layout.is-navigating:has(.menu-item[data-title='WORKS'].is-navigating-to)
+		.menu-item[data-title='SKILLS'] {
+		transform: translateY(100vh);
+	}
+	.menu-layout.is-navigating:has(.menu-item[data-title='WORKS'].is-navigating-to)
+		.menu-item[data-title='CONNECT'] {
+		transform: translate(100vw, 100vh);
+	}
+
+	/* ABOUT navigation effect */
+	.menu-layout.is-navigating:has(.menu-item[data-title='ABOUT'].is-navigating-to)
+		.menu-item[data-title='WORKS'] {
+		transform: translateX(-100vw);
+	}
+	.menu-layout.is-navigating:has(.menu-item[data-title='ABOUT'].is-navigating-to)
+		.menu-item[data-title='SKILLS'] {
+		transform: translate(-100vw, 100vh);
+	}
+	.menu-layout.is-navigating:has(.menu-item[data-title='ABOUT'].is-navigating-to)
+		.menu-item[data-title='CONNECT'] {
+		transform: translateY(100vh);
+	}
+
+	/* SKILLS navigation effect */
+	.menu-layout.is-navigating:has(.menu-item[data-title='SKILLS'].is-navigating-to)
+		.menu-item[data-title='WORKS'] {
+		transform: translateY(-100vh);
+	}
+	.menu-layout.is-navigating:has(.menu-item[data-title='SKILLS'].is-navigating-to)
+		.menu-item[data-title='ABOUT'] {
+		transform: translate(100vw, -100vh);
+	}
+	.menu-layout.is-navigating:has(.menu-item[data-title='SKILLS'].is-navigating-to)
+		.menu-item[data-title='CONNECT'] {
+		transform: translateX(100vw);
+	}
+
+	/* CONNECT navigation effect */
+	.menu-layout.is-navigating:has(.menu-item[data-title='CONNECT'].is-navigating-to)
+		.menu-item[data-title='WORKS'] {
+		transform: translate(-100vw, -100vh);
+	}
+	.menu-layout.is-navigating:has(.menu-item[data-title='CONNECT'].is-navigating-to)
+		.menu-item[data-title='ABOUT'] {
+		transform: translateY(-100vh);
+	}
+	.menu-layout.is-navigating:has(.menu-item[data-title='CONNECT'].is-navigating-to)
+		.menu-item[data-title='SKILLS'] {
+		transform: translateX(-100vw);
 	}
 </style>
