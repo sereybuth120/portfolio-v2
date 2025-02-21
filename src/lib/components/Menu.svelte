@@ -2,7 +2,7 @@
 	import { goto } from '$app/navigation';
 	import Button from './Button.svelte';
 
-	export let onClick: () => void = () => {};
+	export let onClick: () => void;
 	export let menuOpen: boolean = false;
 
 	let navigatingTo: string | null = null;
@@ -14,6 +14,11 @@
 		{ title: 'SKILLS', link: '/skills' },
 		{ title: 'CONNECT', link: '/connect' }
 	];
+
+	function handleHomeClick(e: CustomEvent<MouseEvent>) {
+		e.stopPropagation();
+		onClick();
+	}
 
 	async function handleNavigation(link: string, title: string) {
 		if (!document.startViewTransition) {
@@ -46,8 +51,18 @@
 	}
 </script>
 
-<div class="relative h-screen w-screen {menuOpen ? 'opacity-100' : 'opacity-0'}">
-	<div class="menu-layout" class:is-navigating={navigatingTo !== null || isTransitioning}>
+<!-- class="relative h-screen w-screen {menuOpen ? 'opacity-100' : 'opacity-0'}" -->
+<div
+	class="fixed inset-0 z-50 flex items-center justify-center bg-[#2D3436] transition-opacity duration-300"
+	class:opacity-100={menuOpen}
+	class:pointer-events-auto={menuOpen}
+	class:opacity-0={!menuOpen}
+	class:pointer-events-none={!menuOpen}
+>
+	<div
+		class={menuOpen ? 'menu-layout' : ''}
+		class:is-navigating={navigatingTo !== null || isTransitioning}
+	>
 		{#each menuItems as item, index}
 			<button
 				class="menu-item {menuOpen ? 'glitch-in' : ''}"
@@ -73,7 +88,7 @@
 		{/each}
 		<div class="button-container">
 			<div class="button-back">
-				<Button on:click={onClick}>Home</Button>
+				<Button on:click={handleHomeClick}>Home</Button>
 			</div>
 		</div>
 	</div>

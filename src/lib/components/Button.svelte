@@ -45,7 +45,7 @@
 <button
 	{type}
 	class={`${baseStyles} ${variants[variant as Variant]} ${sizes[size as Size]}`}
-	onclick={handleClick}
+	on:click={handleClick}
 >
 	<slot />
 </button>

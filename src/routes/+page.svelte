@@ -11,36 +11,26 @@
 	onMount(() => {
 		if (browser) {
 			const storedMenuState = sessionStorage.getItem('menuState');
-			if (storedMenuState === 'true') {
-				showMenu = true;
-			}
-
-			// Listen for browser back/forward buttons
-			window.addEventListener('popstate', () => {
-				const storedMenuState = sessionStorage.getItem('menuState');
-				if (storedMenuState === 'true') {
-					showMenu = true;
-				}
-			});
+			showMenu = storedMenuState === 'true';
+			console.log('Initial menu state:', showMenu);
 		}
 	});
 
+	// Track updates
+
 	function handleClick() {
 		showMenu = !showMenu;
+
 		if (browser) {
 			sessionStorage.setItem('menuState', showMenu.toString());
 		}
 	}
 
-	// Reset menu state when navigating away from menu pages
+	// Handle pathname changes
 	$: if (browser && $page.url.pathname === '/') {
 		const storedMenuState = sessionStorage.getItem('menuState');
-		if (storedMenuState === 'true') {
-			showMenu = true;
-		}
+		showMenu = storedMenuState === 'true';
 	}
-
-	$: console.log('Current state:', showMenu ? 1 : 0);
 </script>
 
 <div class="relative h-[100vh] w-full overflow-hidden bg-[#2D3436] text-center">
