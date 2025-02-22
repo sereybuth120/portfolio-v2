@@ -53,7 +53,7 @@
 
 <!-- class="relative h-screen w-screen {menuOpen ? 'opacity-100' : 'opacity-0'}" -->
 <div
-	class="fixed inset-0 z-50 flex items-center justify-center bg-[#2D3436] transition-opacity duration-300"
+	class="fixed inset-0 z-50 flex items-center justify-center bg-transparent transition-opacity duration-300"
 	class:opacity-100={menuOpen}
 	class:pointer-events-auto={menuOpen}
 	class:opacity-0={!menuOpen}
@@ -99,7 +99,7 @@
 		--transition-timing: 0.3s ease-in-out;
 		--border-color: rgba(231, 231, 231, 0.1);
 		--hover-color: #ffd700;
-		--bg-color: #2d3436;
+		--bg-color: transparent;
 		--glitch-duration: 0.3s;
 		--total-load-time: 1.2s; /* 4 items * 0.2s delay + 0.4s animation */
 	}

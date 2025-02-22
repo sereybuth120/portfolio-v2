@@ -1,15 +1,4 @@
 <script lang="ts">
-	import Button from './Button.svelte';
-
-	export let onClick: () => void;
-	export let menuOpen: boolean = false;
-
-	function handleMenuClick(e: CustomEvent<MouseEvent>) {
-		console.log('Menu button clicked in OrbitalTech');
-		e.stopPropagation();
-		onClick();
-	}
-
 	// Split icons between two rings
 	let primaryRingIcons = [
 		'devicon-react-plain',
@@ -37,58 +26,38 @@
 
 	let primaryQuantity: number = primaryRingIcons.length;
 	let secondaryQuantity: number = secondaryRingIcons.length;
-
-	$: if (!menuOpen) {
-		console.log('OrbitalTech is visible, ensuring click handler is active');
-	}
 </script>
 
-<div
-	class="relative transition-all duration-300 px-50"
-	class:opacity-100={!menuOpen}
-	class:pointer-events-auto={!menuOpen}
-	class:opacity-0={menuOpen}
-	class:pointer-events-none={menuOpen}
->
-	<div class="orbital-container absolute top-1/2 right-[10%] -translate-y-1/2">
-		<!-- Primary Ring -->
-		<div
-			class="slider primary-ring absolute h-[300px] w-[240px]"
-			style="--quantity: {primaryQuantity}; --speed: {20}s;"
-		>
-			{#each primaryRingIcons as icon, index}
-				<div class="item absolute inset-0" style="--position: {index + 1}">
-					<i class="{icon} icon-spin text-6xl text-white"></i>
-				</div>
-			{/each}
-		</div>
-
-		<!-- Secondary Ring -->
-		<div
-			class="slider secondary-ring absolute h-[300px] w-[240px]"
-			style="--quantity: {secondaryQuantity}; --speed: {20}s;"
-		>
-			{#each secondaryRingIcons as icon, index}
-				<div class="item absolute inset-0" style="--position: {index + 1}">
-					<i class="{icon} icon-spin text-5xl text-red-500"></i>
-				</div>
-			{/each}
-		</div>
-
-		<div class="h-[200px] w-[200px]">
-			<div class="planet">
-				<i class="devicon-javascript-plain"></i>
-				<i class="devicon-typescript-plain"></i>
-				<i class="devicon-python-plain"></i>
+<div class="orbital-container absolute top-1/2 right-[10%] -translate-y-1/2">
+	<!-- Primary Ring -->
+	<div
+		class="slider primary-ring absolute h-[300px] w-[240px]"
+		style="--quantity: {primaryQuantity}; --speed: {20}s;"
+	>
+		{#each primaryRingIcons as icon, index}
+			<div class="item absolute inset-0" style="--position: {index + 1}">
+				<i class="{icon} icon-spin text-6xl text-white"></i>
 			</div>
-		</div>
+		{/each}
 	</div>
 
-	<div class="z-10 mt-10 flex h-screen flex-col items-start justify-center">
-		<h4 class="text-[10rem] text-yellow-500" data-content="Web">Web</h4>
-		<h4 class="mt-25 text-[10rem] text-red-500" data-content="Developer">Developer</h4>
-		<div class="relative z-20">
-			<Button on:click={handleMenuClick}>Menu</Button>
+	<!-- Secondary Ring -->
+	<div
+		class="slider secondary-ring absolute h-[300px] w-[240px]"
+		style="--quantity: {secondaryQuantity}; --speed: {20}s;"
+	>
+		{#each secondaryRingIcons as icon, index}
+			<div class="item absolute inset-0" style="--position: {index + 1}">
+				<i class="{icon} icon-spin text-5xl text-red-500"></i>
+			</div>
+		{/each}
+	</div>
+
+	<div class="h-[200px] w-[200px]">
+		<div class="planet">
+			<i class="devicon-javascript-plain"></i>
+			<i class="devicon-typescript-plain"></i>
+			<i class="devicon-python-plain"></i>
 		</div>
 	</div>
 </div>
@@ -106,12 +75,6 @@
 			#3178c6 120deg 240deg,
 			#4b8bbe 240deg 360deg
 		);
-	}
-
-	.scene {
-		perspective: 3000px;
-		transform-style: preserve-3d;
-		min-height: 100vh;
 	}
 
 	.orbital-container {
