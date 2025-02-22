@@ -23,7 +23,6 @@
 		if (browser) {
 			const storedMenuState = sessionStorage.getItem('menuState');
 			showMenu = storedMenuState === 'true';
-			console.log('Initial menu state:', showMenu);
 		}
 	});
 

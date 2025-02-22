@@ -51,7 +51,6 @@
 	}
 </script>
 
-<!-- class="relative h-screen w-screen {menuOpen ? 'opacity-100' : 'opacity-0'}" -->
 <div
 	class="fixed inset-0 z-50 flex items-center justify-center bg-transparent transition-opacity duration-300"
 	class:opacity-100={menuOpen}
@@ -65,7 +64,8 @@
 	>
 		{#each menuItems as item, index}
 			<button
-				class="menu-item {menuOpen ? 'glitch-in' : ''}"
+				class="menu-item"
+				class:glitch-in={menuOpen}
 				class:is-navigating-to={navigatingTo === item.title}
 				data-title={item.title}
 				style="--item-delay: {index * 0.2}s; view-transition-name: menu-{item.title.toLowerCase()}"
@@ -167,6 +167,10 @@
 		transform-style: preserve-3d;
 		perspective: 1000px;
 		contain: paint;
+	}
+
+	.menu-item.is-navigating-to {
+		background: #ffd700 !important;
 	}
 
 	.glitch-in {
