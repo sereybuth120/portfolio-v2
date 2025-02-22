@@ -24,11 +24,11 @@
 
 	const variants: Record<Variant, string> = {
 		primary:
-			'bg-[var(--color-primary-600)] text-white hover:bg-[var(--color-primary-700)] focus:ring-[var(--color-primary-500)]',
+			'bg-[var(--color-secondary-900)] text-white hover:bg-[var(--color-secondary-700)] focus:ring-[var(--color-secondary-500)]',
 		secondary:
 			'bg-[var(--color-secondary-600)] text-white hover:bg-[var(--color-secondary-700)] focus:ring-[var(--color-secondary-500)]',
 		outline:
-			'border-2 border-[var(--color-primary-600)] text-[var(--color-primary-600)] hover:bg-[var(--color-primary-50)] focus:ring-[var(--color-primary-500)]'
+			'border-2 border-[var(--color-secondary-600)] text-[var(--color-secondary-600)] hover:bg-[var(--color-secondary-50)] focus:ring-[var(--color-primary-500)]'
 	};
 
 	const sizes: Record<Size, string> = {

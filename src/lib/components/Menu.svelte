@@ -97,8 +97,8 @@
 <style>
 	:root {
 		--transition-timing: 0.3s ease-in-out;
-		--border-color: rgba(231, 231, 231, 0.1);
-		--hover-color: #ffd700;
+		--border-color: #e7e7e71a;
+		--hover-color: #2a2a2a37;
 		--bg-color: transparent;
 		--glitch-duration: 0.3s;
 		--total-load-time: 1.2s; /* 4 items * 0.2s delay + 0.4s animation */
@@ -169,8 +169,14 @@
 		contain: paint;
 	}
 
+	.menu-item:hover p {
+		color: white !important;
+		font-size: 3rem !important;
+	}
+
 	.menu-item.is-navigating-to {
-		background: #ffd700 !important;
+		color: black !important;
+		background: var(--hover-color) !important;
 	}
 
 	.glitch-in {
@@ -222,7 +228,7 @@
 	}
 
 	.glitch-in::before {
-		background: linear-gradient(90deg, transparent, rgba(255, 0, 128, 0.1));
+		background: linear-gradient(90deg, transparent, rgba(92, 92, 92, 0.1));
 		animation: glitchBefore 0.3s steps(2) forwards;
 		animation-delay: calc(var(--item-delay) + 0.1s);
 		mix-blend-mode: screen;
@@ -230,7 +236,7 @@
 	}
 
 	.glitch-in::after {
-		background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.1));
+		background: linear-gradient(90deg, transparent, rgba(18, 18, 18, 0.1));
 		animation: glitchAfter 0.3s steps(2) forwards;
 		animation-delay: calc(var(--item-delay) + 0.15s);
 		mix-blend-mode: screen;

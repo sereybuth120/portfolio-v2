@@ -21,8 +21,8 @@
 >
 	<OrbitalTech />
 	<div class="z-10 mt-10 flex h-screen flex-col items-start justify-center">
-		<h4 class="text-[10rem] text-yellow-500" data-content="Web">Web</h4>
-		<h4 class="mt-25 text-[10rem] text-red-500" data-content="Developer">Developer</h4>
+		<h4 class="text-[10rem] text-white" data-content="Web">Web</h4>
+		<h4 class="mt-25 text-[10rem] text-white" data-content="Developer">Developer</h4>
 		<div class="relative z-20">
 			<Button on:click={handleMenuClick}>Menu</Button>
 		</div>

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import planet from '$lib/assets/images/planet.png';
 	// Split icons between two rings
 	let primaryRingIcons = [
 		'devicon-react-plain',
@@ -36,7 +37,7 @@
 	>
 		{#each primaryRingIcons as icon, index}
 			<div class="item absolute inset-0" style="--position: {index + 1}">
-				<i class="{icon} icon-spin text-6xl text-white"></i>
+				<i class="{icon} icon-spin text-6xl text-gray-300"></i>
 			</div>
 		{/each}
 	</div>
@@ -48,33 +49,34 @@
 	>
 		{#each secondaryRingIcons as icon, index}
 			<div class="item absolute inset-0" style="--position: {index + 1}">
-				<i class="{icon} icon-spin text-5xl text-red-500"></i>
+				<i class="{icon} icon-spin text-5xl text-gray-300"></i>
 			</div>
 		{/each}
 	</div>
 
-	<div class="h-[200px] w-[200px]">
-		<div class="planet">
-			<i class="devicon-javascript-plain"></i>
-			<i class="devicon-typescript-plain"></i>
-			<i class="devicon-python-plain"></i>
-		</div>
+	<div class="planet h-[200px] w-full">
+		<img src={planet} alt="planet" class="" />
 	</div>
 </div>
 
 <style>
 	.planet {
-		width: 100%;
-		height: 100%;
+		width: 300px;
+		height: 300px;
 		border-radius: 50%;
-		position: relative;
-		overflow: hidden;
-		background: conic-gradient(
-			from 120deg,
-			#f7df1e 0deg 120deg,
-			#3178c6 120deg 240deg,
-			#4b8bbe 240deg 360deg
+		background: radial-gradient(
+			circle at center,
+			#ffffff 0%,
+			#eeeeee 30%,
+			#dddddd 70%,
+			#cccccc 100%
 		);
+		animation: rotate 30s linear infinite;
+		box-shadow:
+			0 0 80px rgba(255, 255, 255, 0.15),
+			0 0 40px rgba(0, 0, 0, 0.8),
+			inset 0 0 50px rgba(0, 0, 0, 0.2);
+		position: relative;
 	}
 
 	.orbital-container {
@@ -129,7 +131,6 @@
 			translateZ(500px);
 		transition: transform 0.5s ease-in-out;
 		will-change: transform;
-		width: 120%;
 		height: 120%;
 		display: flex;
 		align-items: center;
@@ -146,7 +147,7 @@
 	.icon-spin {
 		display: inline-block;
 		transform-style: preserve-3d;
-		backface-visibility: visible;
+		filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.2));
 	}
 
 	/* Media queries for responsive sizing */

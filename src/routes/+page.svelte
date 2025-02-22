@@ -8,7 +8,7 @@
 	let showMenu = false;
 
 	function getRandomRotation() {
-		return Math.floor(Math.random() * 60) - 30; // Random angle between -30 and 30 degrees
+		return Math.floor(Math.random() * 60) - 30;
 	}
 
 	const shootingStars = [...Array(5)].map(() => ({
@@ -71,9 +71,9 @@
 	.container-c {
 		margin: 0;
 		min-height: 100vh;
-		background: linear-gradient(45deg, #1a1a2a, #2a2a4a, #2a3a4a, #3a2a4a, #2a1a3a, #1a2a3a);
+		background: linear-gradient(45deg, #000000, #020202, #040404, #020202, #000000);
 		background-size: 400% 400%;
-		animation: cosmicFlow 10s linear infinite;
+		animation: cosmicFlow 20s linear infinite;
 		position: relative;
 		overflow: hidden;
 		display: flex;
@@ -96,13 +96,14 @@
 	.container-c::before {
 		content: '';
 		position: absolute;
-		width: 150%;
-		height: 150%;
+		width: 170%;
+		height: 170%;
+		border-radius: 50%;
 		background:
-			radial-gradient(circle at 70% 20%, rgba(120, 160, 200, 0.1) 0%, transparent 30%),
-			radial-gradient(circle at 30% 80%, rgba(160, 120, 200, 0.1) 0%, transparent 30%);
-		animation: nebulaDrift 50s linear infinite;
-		mix-blend-mode: soft-light;
+			radial-gradient(circle at 70% 20%, rgba(255, 255, 255, 0.03) 0%, transparent 35%),
+			radial-gradient(circle at 30% 80%, rgba(255, 255, 255, 0.02) 0%, transparent 35%);
+		animation: nebulaDrift 30s linear infinite;
+		mix-blend-mode: screen;
 	}
 
 	@keyframes nebulaDrift {
@@ -123,21 +124,22 @@
 
 	.star {
 		position: absolute;
-		background: rgba(200, 220, 255, 0.9);
-		width: 1.5px;
-		height: 1.5px;
+		background: rgba(255, 255, 255, 0.6);
+		width: 1px;
+		height: 1px;
 		border-radius: 50%;
-		animation: starTwinkle 3s ease infinite;
+		animation: starTwinkle 4s ease infinite;
+		box-shadow: 0 0 1px rgba(255, 255, 255, 0.2);
 	}
 
 	@keyframes starTwinkle {
 		0%,
 		100% {
-			opacity: 0.5;
+			opacity: 0.1;
 			transform: scale(1);
 		}
 		50% {
-			opacity: 1;
+			opacity: 0.4;
 			transform: scale(1.5);
 		}
 	}
@@ -145,7 +147,6 @@
 	.star-1 {
 		top: 15%;
 		left: 20%;
-		animation-delay: 0s;
 	}
 	.star-2 {
 		top: 25%;
@@ -206,34 +207,11 @@
 	.shooting-star {
 		position: absolute;
 		width: 10px;
-		height: 2px;
+		height: 1px;
 		background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent);
-		animation: shoot 5s linear infinite;
+		animation: var(--shoot-animation) 5s linear infinite;
 		opacity: 0;
 		transform-origin: center;
-	}
-
-	@keyframes shoot {
-		0% {
-			transform: translate(-100vw, -100vh) rotate(var(--rotation, -45deg));
-			opacity: 0;
-		}
-		20% {
-			opacity: 1;
-		}
-		100% {
-			transform: translate(100vw, 100vh) rotate(var(--rotation, -45deg));
-			opacity: 0;
-		}
-	}
-
-	@keyframes contentGlow {
-		0%,
-		100% {
-			box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
-		}
-		50% {
-			box-shadow: 0 12px 40px rgba(80, 100, 150, 0.3);
-		}
+		box-shadow: 0 0 2px rgba(255, 255, 255, 0.1);
 	}
 </style>
