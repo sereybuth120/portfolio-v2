@@ -1,5 +1,7 @@
 <script lang="ts">
+	import { browser } from '$app/environment';
 	import { goto } from '$app/navigation';
+	import { onDestroy, onMount } from 'svelte';
 	import Button from './Button.svelte';
 
 	export let onClick: () => void;
@@ -7,6 +9,24 @@
 
 	let navigatingTo: string | null = null;
 	let isTransitioning = false;
+
+	function handleEscape(event: KeyboardEvent) {
+		if (event.key === 'Escape' && menuOpen) {
+			onClick();
+		}
+	}
+
+	onMount(() => {
+		if (browser) {
+			window.addEventListener('keydown', handleEscape);
+		}
+	});
+
+	onDestroy(() => {
+		if (browser) {
+			window.removeEventListener('keydown', handleEscape);
+		}
+	});
 
 	const menuItems = [
 		{ title: 'WORKS', link: '/works' },
@@ -73,7 +93,7 @@
 			>
 				{#if isTransitioning && navigatingTo === item.title}
 					<p
-						class="flex h-full w-full items-center justify-center text-5xl text-red-500 transition-all duration-500"
+						class="text-white-500 flex h-full w-full items-center justify-center text-5xl transition-all duration-500"
 					>
 						{item.title}
 					</p>
@@ -175,8 +195,8 @@
 	}
 
 	.menu-item.is-navigating-to {
-		color: black !important;
-		background: var(--hover-color) !important;
+		color: white !important;
+		background: black !important;
 	}
 
 	.glitch-in {

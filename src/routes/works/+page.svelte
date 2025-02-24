@@ -33,7 +33,7 @@
 <div
 	class="mx-auto h-screen w-full px-4 py-8 transition-opacity duration-500"
 	class:opacity-0={!isLoaded}
-	style="background-color: #ffd700"
+	style="background-color: black"
 >
 	<h1 class="mb-8 text-4xl font-bold">My Works</h1>
 
