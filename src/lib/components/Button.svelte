@@ -50,6 +50,6 @@
 	></span>
 	<!-- Hover background with inner padding -->
 	<span
-		class="absolute inset-[6px] z-0 rounded-sm bg-transparent transition-all duration-300 group-hover:bg-white"
+		class="absolute inset-[6px] z-0 rounded-none bg-transparent transition-all duration-300 group-hover:bg-white"
 	></span>
 </button>

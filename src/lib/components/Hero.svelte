@@ -19,16 +19,16 @@
 	class:pointer-events-none={menuOpen}
 	class:blur-md={menuOpen}
 >
-	<div class="z-10 flex h-screen flex-col items-start justify-between">
-		<h1 class="">WEB DEVELOPER</h1>
+	<!-- <div class="z-10 flex h-screen flex-col items-start justify-center">
 		<div>
-			<h4 class="text-[6rem] text-white" data-content="Web Developer">Web Developer</h4>
+			<h1 class="text-[6rem] text-white" data-content="HOUT SEREYBUTH">HOUT SEREYBUTH</h1>
+			<h1 class="text-[6rem] text-white" data-content="Web">HOUT SEREYBUTH</h1>
 			<div class=" z-20">
 				<Button on:click={handleMenuClick}>Menu</Button>
 			</div>
 		</div>
 		<div></div>
-	</div>
+	</div> -->
 	<OrbitalTech />
 </div>
 
@@ -39,8 +39,6 @@
 		-webkit-font-smoothing: antialiased;
 		-moz-osx-font-smoothing: grayscale;
 		text-rendering: optimizeLegibility;
-		font-size: 12vw;
-		line-height: 190px;
 		word-break: break-all;
 	}
 </style>

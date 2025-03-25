@@ -29,7 +29,7 @@
 	let secondaryQuantity: number = secondaryRingIcons.length;
 </script>
 
-<div class="orbital-container">
+<div>
 	<!-- Primary Ring -->
 	<div
 		class="slider primary-ring absolute h-[300px] w-[240px]"
@@ -60,29 +60,10 @@
 </div>
 
 <style>
-	.orbital-container {
-		transform-style: preserve-3d;
-		border: 1px solid blue;
-		height: 100vh;
-		width: 100vw;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-	}
-
 	.planet {
 		margin-top: 400px;
 		width: 1200px;
 		height: 1200px;
-		border-radius: 50%;
-		background: radial-gradient(
-			circle at center,
-			#ffffff 0%,
-			#eeeeee 30%,
-			#dddddd 70%,
-			#cccccc 100%
-		);
-		animation: rotate 30s linear infinite;
 		box-shadow:
 			0 0 80px rgba(255, 255, 255, 0.15),
 			0 0 40px rgba(0, 0, 0, 0.8),
@@ -93,15 +74,6 @@
 	.slider {
 		transform-style: preserve-3d;
 		z-index: 0;
-	}
-
-	.content {
-		transform-style: preserve-3d;
-		transform: translateZ(0);
-		z-index: 1;
-		background: rgba(53, 54, 45, 0.8);
-		backdrop-filter: blur(20px);
-		border-radius: 50%;
 	}
 
 	.primary-ring {
@@ -132,7 +104,7 @@
 
 	.item {
 		transform: rotateY(calc((var(--position) - 1) * (360 / var(--quantity)) * 1deg))
-			translateZ(900px);
+			translateZ(200px);
 		transition: transform 0.5s ease-in-out;
 		will-change: transform;
 		height: 120%;
@@ -145,7 +117,7 @@
 
 	.secondary-ring .item {
 		transform: rotateY(calc((var(--position) - 1) * (360 / var(--quantity)) * 1deg))
-			translateZ(900px);
+			translateZ(200px);
 	}
 
 	.icon-spin {

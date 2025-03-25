@@ -1,5 +1,5 @@
 <script lang="ts">
-	import planet from '$lib/assets/images/planet.png';
+	import Globe from './Globe.svelte';
 	// Split icons between two rings
 	let primaryRingIcons = [
 		'devicon-react-plain',
@@ -29,106 +29,97 @@
 	let secondaryQuantity: number = secondaryRingIcons.length;
 </script>
 
-<div class="orbital-container absolute top-1/2 right-[10%] -translate-y-1/2">
+<div class="perspective-1500 relative h-full w-full">
+	<div class="globe-container">
+		<Globe />
+	</div>
+
 	<!-- Primary Ring -->
-	<div
-		class="slider primary-ring absolute h-[300px] w-[240px]"
-		style="--quantity: {primaryQuantity}; --speed: {20}s;"
-	>
+	<div class="primary-ring" style="--quantity: {primaryQuantity}; --speed: {20}s;">
 		{#each primaryRingIcons as icon, index}
 			<div class="item absolute inset-0" style="--position: {index + 1}">
-				<i class="{icon} icon-spin text-6xl text-gray-300"></i>
+				<i class="{icon} icon-spin"></i>
 			</div>
 		{/each}
 	</div>
 
 	<!-- Secondary Ring -->
 	<div
-		class="slider secondary-ring absolute h-[300px] w-[240px]"
+		class="secondary-ring absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
 		style="--quantity: {secondaryQuantity}; --speed: {20}s;"
 	>
 		{#each secondaryRingIcons as icon, index}
 			<div class="item absolute inset-0" style="--position: {index + 1}">
-				<i class="{icon} icon-spin text-5xl text-gray-300"></i>
+				<i class="{icon} icon-spin"></i>
 			</div>
 		{/each}
-	</div>
-
-	<div class="planet h-[200px] w-full">
-		<img src={planet} alt="planet" class="" />
 	</div>
 </div>
 
 <style>
-	.planet {
-		width: 300px;
-		height: 300px;
-		border-radius: 50%;
-		background: radial-gradient(
-			circle at center,
-			#ffffff 0%,
-			#eeeeee 30%,
-			#dddddd 70%,
-			#cccccc 100%
-		);
-		animation: rotate 30s linear infinite;
-		box-shadow:
-			0 0 80px rgba(255, 255, 255, 0.15),
-			0 0 40px rgba(0, 0, 0, 0.8),
-			inset 0 0 50px rgba(0, 0, 0, 0.2);
-		position: relative;
+	.perspective-1500 {
+		perspective: 1500px;
+		transform-style: preserve-3d;
+		height: 100%;
+		width: 100%;
 	}
 
-	.orbital-container {
+	.globe-container {
 		transform-style: preserve-3d;
-		width: 300px;
-		height: 300px;
-	}
-
-	.slider {
-		transform-style: preserve-3d;
-		z-index: 0;
-	}
-
-	.content {
-		transform-style: preserve-3d;
-		transform: translateZ(0);
-		z-index: 1;
-		background: rgba(53, 54, 45, 0.8);
-		backdrop-filter: blur(20px);
-		padding: 2rem;
-		border-radius: 50%;
+		width: min(700px, 90vw);
+		height: min(700px, 90vw);
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		z-index: 50;
 	}
 
 	.primary-ring {
+		transform-style: preserve-3d;
+		position: absolute;
+		width: 0px;
+		height: 0px;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
 		animation: primaryRingRotation var(--speed) linear infinite;
+		z-index: 5;
 	}
 
 	.secondary-ring {
+		transform-style: preserve-3d;
+		position: absolute;
+		width: 0px;
+		height: 0px;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
 		animation: secondaryRingRotation var(--speed) linear infinite;
+		z-index: 5;
 	}
 
 	@keyframes primaryRingRotation {
 		from {
-			transform: rotateZ(30deg) rotateX(-5deg) rotateY(0deg);
+			transform: translate(-50%, -50%) rotateZ(-35deg) rotateX(-5deg) rotateY(0deg);
 		}
 		to {
-			transform: rotateZ(30deg) rotateX(-5deg) rotateY(360deg);
+			transform: translate(-50%, -50%) rotateZ(-35deg) rotateX(-5deg) rotateY(-360deg);
 		}
 	}
 
 	@keyframes secondaryRingRotation {
 		from {
-			transform: rotateZ(-30deg) rotateX(-5deg) rotateY(0deg);
+			transform: translate(-50%, -50%) rotateZ(35deg) rotateX(-5deg) rotateY(0deg);
 		}
 		to {
-			transform: rotateZ(-30deg) rotateX(-5deg) rotateY(-360deg);
+			transform: translate(-50%, -50%) rotateZ(35deg) rotateX(-5deg) rotateY(-360deg);
 		}
 	}
 
 	.item {
 		transform: rotateY(calc((var(--position) - 1) * (360 / var(--quantity)) * 1deg))
-			translateZ(500px);
+			translateZ(min(900px, 80vw));
 		transition: transform 0.5s ease-in-out;
 		will-change: transform;
 		height: 120%;
@@ -141,82 +132,71 @@
 
 	.secondary-ring .item {
 		transform: rotateY(calc((var(--position) - 1) * (360 / var(--quantity)) * 1deg))
-			translateZ(500px);
+			translateZ(min(900px, 80vw));
 	}
 
 	.icon-spin {
 		display: inline-block;
 		transform-style: preserve-3d;
-		filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.2));
+		font-size: clamp(2rem, 5vw, 3rem);
+		color: rgba(0, 0, 0, 0.95);
+		filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.2))
+			drop-shadow(0 0 5px rgba(255, 255, 255, 0.3)) drop-shadow(0 0 3px rgba(255, 255, 255, 0.5));
+		text-shadow:
+			0 0 15px rgba(255, 255, 255, 0.5),
+			0 0 5px rgba(255, 255, 255, 0.7),
+			0 0 2px rgba(255, 255, 255, 0.8);
 	}
 
 	/* Media queries for responsive sizing */
 	@media screen and (min-width: 1441px) {
-		.orbital-container {
-			right: 15%;
-		}
-		.slider {
-			height: 300px;
-			width: 240px;
-		}
 		.item,
 		.secondary-ring .item {
 			transform: rotateY(calc((var(--position) - 1) * (360 / var(--quantity)) * 1deg))
-				translateZ(20vw);
+				translateZ(min(1000px, 30vw));
 		}
 	}
 
 	@media screen and (max-width: 1440px) {
-		.orbital-container {
-			right: 10%;
+		.globe-container {
+			width: min(600px, 90vw);
+			height: min(600px, 90vw);
 		}
-		.text-container {
-			left: -25rem;
-		}
-		.slider {
-			height: 250px;
-			width: 200px;
-		}
+
 		.item,
 		.secondary-ring .item {
 			transform: rotateY(calc((var(--position) - 1) * (360 / var(--quantity)) * 1deg))
-				translateZ(450px);
+				translateZ(min(700px, 45vw));
 		}
 	}
 
 	@media screen and (max-width: 1023px) {
-		.orbital-container {
-			right: 5%;
+		.globe-container {
+			width: min(500px, 90vw);
+			height: min(500px, 90vw);
 		}
-		.text-container {
-			left: -20rem;
-		}
-		.slider {
-			height: 200px;
-			width: 170px;
-		}
+
 		.item,
 		.secondary-ring .item {
 			transform: rotateY(calc((var(--position) - 1) * (360 / var(--quantity)) * 1deg))
-				translateZ(400px);
+				translateZ(min(600px, 40vw));
 		}
 	}
 
 	@media screen and (max-width: 767px) {
-		.orbital-container {
-			right: 2%;
+		.globe-container {
+			width: min(350px, 85vw);
+			height: min(350px, 85vw);
 		}
-		.text-container {
-			left: -15rem;
-		}
-		.slider {
-			height: 140px;
-			width: 160px;
-		}
+
 		.item,
 		.secondary-ring .item {
 			transform: rotateY(calc((var(--position) - 1) * (360 / var(--quantity)) * 1deg))
-				translateZ(50vw);
+				translateZ(min(450px, 50vw));
+		}
+
+		.icon-spin {
+			font-size: clamp(1.5rem, 4vw, 2.5rem);
 		}
 	}
 </style>
