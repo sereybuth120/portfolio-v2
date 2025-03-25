@@ -7,17 +7,6 @@
 
 	let showMenu = false;
 
-	function getRandomRotation() {
-		return Math.floor(Math.random() * 60) - 30;
-	}
-
-	const shootingStars = [...Array(5)].map(() => ({
-		delay: Math.random() * 15,
-		top: Math.random() * 100,
-		left: Math.random() * 100,
-		rotation: getRandomRotation()
-	}));
-
 	// Initialize menu state from storage on mount
 	onMount(() => {
 		if (browser) {
@@ -45,18 +34,23 @@
 <div class="relative h-[100vh] w-full overflow-hidden bg-transparent text-center">
 	<div class="container-c">
 		<div class="star-field" class:blur-md={showMenu}>
-			<!-- eslint-disable-next-line @typescript-eslint/no-unused-vars -->
-			{#each Array(12) as _, i}
-				<div class={`star star-${i + 1}`}></div>
+			<!-- Stars -->
+			{#each Array(50) as _}
+				<div
+					class="star"
+					style={`top: ${Math.random() * 100}%; left: ${Math.random() * 100}%; animation-delay: ${Math.random() * 10}s; width: ${1 + Math.random() * 3}px; height: ${1 + Math.random() * 3}px;`}
+				></div>
 			{/each}
 
-			{#each shootingStars as star}
+			<!-- Shooting Stars -->
+			{#each Array(8) as _}
 				<div
 					class="shooting-star"
-					style={`animation-delay: ${star.delay}s; top: ${star.top}%; left: ${star.left}%; --rotation: ${star.rotation}deg;`}
+					style={`animation-delay: ${Math.random() * 8}s; top: ${Math.random() * 70 + 10}%; left: ${Math.random() * 70 + 10}%; --rotation: ${Math.floor(Math.random() * 60) - 30}deg; --shoot-animation: ${Math.random() > 0.5 ? 'shootFromLeft' : 'shootFromRight'};`}
 				></div>
 			{/each}
 		</div>
+
 		<div class="w-full">
 			<HeroSection onClick={handleClick} menuOpen={showMenu} />
 			<Menu onClick={handleClick} menuOpen={showMenu} />
@@ -120,13 +114,12 @@
 		width: 100%;
 		height: 100%;
 		pointer-events: none;
+		z-index: 5;
 	}
 
 	.star {
 		position: absolute;
-		background: rgba(255, 255, 255, 0.6);
-		width: 1px;
-		height: 1px;
+		background: rgb(255, 255, 255);
 		border-radius: 50%;
 		animation: starTwinkle 4s ease infinite;
 		box-shadow: 0 0 1px rgba(255, 255, 255, 0.2);
@@ -135,83 +128,60 @@
 	@keyframes starTwinkle {
 		0%,
 		100% {
-			opacity: 0.1;
-			transform: scale(1);
+			opacity: 0.2;
+			transform: scale(0.8);
 		}
 		50% {
-			opacity: 0.4;
+			opacity: 0.9;
 			transform: scale(1.5);
 		}
 	}
 
-	.star-1 {
-		top: 15%;
-		left: 20%;
-	}
-	.star-2 {
-		top: 25%;
-		left: 70%;
-		animation-delay: 1.2s;
-	}
-	.star-3 {
-		top: 60%;
-		left: 40%;
-		animation-delay: 2.5s;
-	}
-	.star-4 {
-		top: 75%;
-		left: 85%;
-		animation-delay: 3.8s;
-	}
-	.star-5 {
-		top: 45%;
-		left: 10%;
-		animation-delay: 4.2s;
-	}
-	.star-6 {
-		top: 5%;
-		left: 50%;
-		animation-delay: 5.5s;
-	}
-	.star-7 {
-		top: 85%;
-		left: 30%;
-		animation-delay: 6.7s;
-	}
-	.star-8 {
-		top: 35%;
-		left: 90%;
-		animation-delay: 7.9s;
-	}
-	.star-9 {
-		top: 55%;
-		left: 65%;
-		animation-delay: 8.4s;
-	}
-	.star-10 {
-		top: 10%;
-		left: 80%;
-		animation-delay: 9.1s;
-	}
-	.star-11 {
-		top: 70%;
-		left: 15%;
-		animation-delay: 10.3s;
-	}
-	.star-12 {
-		top: 95%;
-		left: 60%;
-		animation-delay: 11.5s;
-	}
-
 	.shooting-star {
 		position: absolute;
-		width: 10px;
-		height: 1px;
-		background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent);
-		animation: var(--shoot-animation) 5s linear infinite;
+		width: 150px;
+		height: 2px;
+		background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.9), transparent);
+		animation: var(--shoot-animation, shootFromLeft) 4s linear infinite;
 		opacity: 0;
+		transform: rotate(var(--rotation, 0deg));
 		transform-origin: center;
-		box-shadow: 0 0 2px rgba(255, 255, 255, 0.1);
+		box-shadow: 0 0 6px 1px rgba(255, 255, 255, 0.5);
+	}
+
+	@keyframes shootFromLeft {
+		0% {
+			opacity: 0;
+			transform: translateX(-100px) rotate(var(--rotation));
+		}
+		5% {
+			opacity: 1;
+		}
+		25% {
+			opacity: 1;
+		}
+		40%,
+		100% {
+			opacity: 0;
+			transform: translateX(calc(100vw + 100px)) rotate(var(--rotation));
+		}
+	}
+
+	@keyframes shootFromRight {
+		0% {
+			opacity: 0;
+			transform: translateX(calc(100vw + 100px)) rotate(var(--rotation));
+		}
+		5% {
+			opacity: 1;
+		}
+		25% {
+			opacity: 1;
+		}
+		40%,
+		100% {
+			opacity: 0;
+			transform: translateX(-100px) rotate(var(--rotation));
+		}
 	}
 </style>

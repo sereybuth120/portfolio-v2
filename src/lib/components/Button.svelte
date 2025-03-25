@@ -13,12 +13,13 @@
 		click: MouseEvent;
 	}>();
 
-	const baseStyles = 'relative font-medium transition-all duration-300 group overflow-hidden';
+	const baseStyles =
+		'relative font-medium transition-all duration-300 group overflow-hidden inline-block';
 
 	const sizes: Record<Size, string> = {
-		sm: 'group-hover:px-10 group-hover:py-3 px-8 py-2 text-sm',
-		md: 'group-hover:px-12 group-hover:py-4 px-10 py-3 text-base',
-		lg: 'group-hover:px-14 group-hover:py-5 px-12 py-4 text-lg'
+		sm: 'w-[120px] group-hover:w-[140px] group-hover:px-10 group-hover:py-3 px-8 py-2 text-sm',
+		md: 'w-[160px] group-hover:w-[180px] group-hover:px-12 group-hover:py-4 px-10 py-3 text-base',
+		lg: 'w-[200px] group-hover:w-[220px] group-hover:px-14 group-hover:py-5 px-12 py-4 text-lg'
 	};
 
 	function handleClick(event: MouseEvent) {
