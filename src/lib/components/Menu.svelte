@@ -108,7 +108,7 @@
 		{/each}
 		<div class="button-container">
 			<div class="button-back">
-				<Button on:click={handleHomeClick}>Home</Button>
+				<Button on:click={handleHomeClick}>RETURN</Button>
 			</div>
 		</div>
 	</div>
@@ -190,12 +190,12 @@
 	}
 
 	.menu-item:hover p {
-		color: white !important;
+		color: #e97100 !important;
 		font-size: 3rem !important;
 	}
 
 	.menu-item.is-navigating-to {
-		color: white !important;
+		color: #e97100 !important;
 		background: black !important;
 	}
 

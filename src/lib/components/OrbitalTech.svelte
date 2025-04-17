@@ -1,29 +1,11 @@
 <script lang="ts">
 	import Globe from './Globe.svelte';
-	// Split icons between two rings
-	let primaryRingIcons = [
-		'devicon-react-plain',
-		'devicon-nextjs-plain',
-		'devicon-svelte-plain',
-		'devicon-redux-original',
-		'devicon-css3-plain',
-		'devicon-sass-original',
-		'devicon-tailwindcss-original',
-		'devicon-materialui-plain',
-		'devicon-playwright-plain'
-	];
+	import ModelViewer from './ModelViewer.svelte';
 
-	let secondaryRingIcons = [
-		'devicon-nodejs-plain-wordmark',
-		'devicon-express-original',
-		'devicon-denojs-original',
-		'devicon-nestjs-plain',
-		'devicon-redis-plain',
-		'devicon-mongodb-plain',
-		'devicon-postgresql-plain',
-		'devicon-docker-plain',
-		'devicon-firebase-plain'
-	];
+	// Split icons between two rings
+	let primaryRingIcons = ['react', 'next', 'svelte', 'js', 'tailwind'];
+
+	let secondaryRingIcons = ['node', 'nest', 'deno', 'postgres', 'docker'];
 
 	let primaryQuantity: number = primaryRingIcons.length;
 	let secondaryQuantity: number = secondaryRingIcons.length;
@@ -38,7 +20,10 @@
 	<div class="primary-ring" style="--quantity: {primaryQuantity}; --speed: {20}s;">
 		{#each primaryRingIcons as icon, index}
 			<div class="item absolute inset-0" style="--position: {index + 1}">
-				<i class="{icon} icon-spin"></i>
+				<!-- <i class="{icon} icon-spin"></i> -->
+				<div class="model-wrapper">
+					<ModelViewer modelPath="/icons-3d/{icon}.glb" />
+				</div>
 			</div>
 		{/each}
 	</div>
@@ -50,7 +35,10 @@
 	>
 		{#each secondaryRingIcons as icon, index}
 			<div class="item absolute inset-0" style="--position: {index + 1}">
-				<i class="{icon} icon-spin"></i>
+				<!-- <i class="{icon} icon-spin"></i> -->
+				<div class="model-wrapper">
+					<ModelViewer modelPath="/icons-3d/{icon}.glb" />
+				</div>
 			</div>
 		{/each}
 	</div>
@@ -62,6 +50,10 @@
 		transform-style: preserve-3d;
 		height: 100%;
 		width: 100%;
+	}
+	.model-wrapper {
+		height: 200px;
+		width: 340px;
 	}
 
 	.globe-container {
@@ -85,6 +77,7 @@
 		transform: translate(-50%, -50%);
 		animation: primaryRingRotation var(--speed) linear infinite;
 		z-index: 5;
+		width: 200px;
 	}
 
 	.secondary-ring {
@@ -97,6 +90,7 @@
 		transform: translate(-50%, -50%);
 		animation: secondaryRingRotation var(--speed) linear infinite;
 		z-index: 5;
+		width: 200px;
 	}
 
 	@keyframes primaryRingRotation {
@@ -133,19 +127,6 @@
 	.secondary-ring .item {
 		transform: rotateY(calc((var(--position) - 1) * (360 / var(--quantity)) * 1deg))
 			translateZ(min(900px, 80vw));
-	}
-
-	.icon-spin {
-		display: inline-block;
-		transform-style: preserve-3d;
-		font-size: clamp(2rem, 5vw, 3rem);
-		color: rgba(0, 0, 0, 0.95);
-		filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.2))
-			drop-shadow(0 0 5px rgba(255, 255, 255, 0.3)) drop-shadow(0 0 3px rgba(255, 255, 255, 0.5));
-		text-shadow:
-			0 0 15px rgba(255, 255, 255, 0.5),
-			0 0 5px rgba(255, 255, 255, 0.7),
-			0 0 2px rgba(255, 255, 255, 0.8);
 	}
 
 	/* Media queries for responsive sizing */
@@ -193,10 +174,6 @@
 		.secondary-ring .item {
 			transform: rotateY(calc((var(--position) - 1) * (360 / var(--quantity)) * 1deg))
 				translateZ(min(450px, 50vw));
-		}
-
-		.icon-spin {
-			font-size: clamp(1.5rem, 4vw, 2.5rem);
 		}
 	}
 </style>

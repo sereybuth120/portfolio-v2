@@ -6,6 +6,9 @@
 	import { onMount } from 'svelte';
 
 	let showMenu = false;
+	// Create arrays for stars and shooting stars
+	const START_COUNT = 50;
+	const SHOOTING_STAR_COUNT = 8;
 
 	// Initialize menu state from storage on mount
 	onMount(() => {
@@ -31,37 +34,36 @@
 	}
 </script>
 
-<div class="relative h-[100vh] w-full overflow-hidden bg-transparent text-center">
+<div class="relative h-[100vh] overflow-hidden bg-transparent text-center">
 	<div class="container-c">
 		<div class="star-field" class:blur-md={showMenu}>
 			<!-- Stars -->
-			{#each Array(50) as _, __}
+			{#each Array(START_COUNT)
+				.fill(0)
+				.map( () => ({ top: Math.random() * 100, left: Math.random() * 100, delay: Math.random() * 10, width: 1 + Math.random() * 3, height: 1 + Math.random() * 3 }) ) as star}
 				<div
 					class="star"
-					style={`top: ${Math.random() * 100}%; left: ${Math.random() * 100}%; animation-delay: ${Math.random() * 10}s; width: ${1 + Math.random() * 3}px; height: ${1 + Math.random() * 3}px;`}
+					style={`top: ${star.top}%; left: ${star.left}%; animation-delay: ${star.delay}s; width: ${star.width}px; height: ${star.height}px;`}
 				></div>
 			{/each}
 
 			<!-- Shooting Stars -->
-			{#each Array(8) as _, __}
+			{#each Array(SHOOTING_STAR_COUNT)
+				.fill(0)
+				.map( () => ({ delay: Math.random() * 8, top: Math.random() * 70 + 10, left: Math.random() * 70 + 10, rotation: Math.floor(Math.random() * 60) - 30, animation: Math.random() > 0.5 ? 'shootFromLeft' : 'shootFromRight' }) ) as shootingStar}
 				<div
 					class="shooting-star"
-					style={`animation-delay: ${Math.random() * 8}s; top: ${Math.random() * 70 + 10}%; left: ${Math.random() * 70 + 10}%; --rotation: ${Math.floor(Math.random() * 60) - 30}deg; --shoot-animation: ${Math.random() > 0.5 ? 'shootFromLeft' : 'shootFromRight'};`}
+					style={`animation-delay: ${shootingStar.delay}s; top: ${shootingStar.top}%; left: ${shootingStar.left}%; --rotation: ${shootingStar.rotation}deg; --shoot-animation: ${shootingStar.animation};`}
 				></div>
 			{/each}
 		</div>
 
-		<div class="w-full">
-			<HeroSection onClick={handleClick} menuOpen={showMenu} />
-			<Menu onClick={handleClick} menuOpen={showMenu} />
-		</div>
+		<HeroSection onClick={handleClick} menuOpen={showMenu} />
+		<Menu onClick={handleClick} menuOpen={showMenu} />
 	</div>
 </div>
 
 <style>
-	@import url('https://fonts.cdnfonts.com/css/ica-rubrik-black');
-	@import url('https://fonts.cdnfonts.com/css/poppins');
-
 	.container-c {
 		margin: 0;
 		min-height: 100vh;
@@ -69,6 +71,7 @@
 			radial-gradient(circle at 20% 30%, rgba(50, 50, 50, 0.3) 0%, transparent 40%),
 			radial-gradient(circle at 80% 70%, rgba(75, 75, 75, 0.2) 0%, transparent 50%),
 			linear-gradient(45deg, #000000, #0a0a0a, #111111, #0a0a0a, #000000);
+		background: #000000;
 		background-size: 200% 200%;
 		animation: cosmicFlow 30s ease infinite;
 		position: relative;
@@ -76,6 +79,7 @@
 		display: flex;
 		justify-content: center;
 		align-items: center;
+		height: 100vh;
 	}
 
 	@keyframes cosmicFlow {

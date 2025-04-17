@@ -42,7 +42,7 @@
 			<Card>
 				<div class="space-y-4">
 					<h2 class="text-2xl font-semibold">{work.title}</h2>
-					<p class="text-gray-600">{work.description}</p>
+					<p class="font-[Exo2] font-medium text-gray-600">{work.description}</p>
 					<div class="flex flex-wrap gap-2">
 						{#each work.tags as tag}
 							<span class="rounded-full bg-blue-100 px-3 py-1 text-sm text-blue-800">
