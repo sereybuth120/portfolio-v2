@@ -37,19 +37,19 @@
 	</span>
 	<!-- Corner brackets -->
 	<span
-		class="absolute top-0 left-0 h-4 w-4 border-t-2 border-l-2 border-gray-300 transition-all duration-300 group-hover:h-5 group-hover:w-5 group-hover:border-white"
+		class="absolute top-0 left-0 h-4 w-4 border-t-2 border-l-2 border-gray-300 transition-all duration-300 group-hover:h-5 group-hover:w-5 group-hover:border-[#fa5c29]"
 	></span>
 	<span
-		class="absolute top-0 right-0 h-4 w-4 border-t-2 border-r-2 border-gray-300 transition-all duration-300 group-hover:h-5 group-hover:w-5 group-hover:border-white"
+		class="absolute top-0 right-0 h-4 w-4 border-t-2 border-r-2 border-gray-300 transition-all duration-300 group-hover:h-5 group-hover:w-5 group-hover:border-[#fa5c29]"
 	></span>
 	<span
-		class="absolute bottom-0 left-0 h-4 w-4 border-b-2 border-l-2 border-gray-300 transition-all duration-300 group-hover:h-5 group-hover:w-5 group-hover:border-white"
+		class="absolute bottom-0 left-0 h-4 w-4 border-b-2 border-l-2 border-gray-300 transition-all duration-300 group-hover:h-5 group-hover:w-5 group-hover:border-[#fa5c29]"
 	></span>
 	<span
-		class="absolute right-0 bottom-0 h-4 w-4 border-r-2 border-b-2 border-gray-300 transition-all duration-300 group-hover:h-5 group-hover:w-5 group-hover:border-white"
+		class="absolute right-0 bottom-0 h-4 w-4 border-r-2 border-b-2 border-gray-300 transition-all duration-300 group-hover:h-5 group-hover:w-5 group-hover:border-[#fa5c29]"
 	></span>
 	<!-- Hover background with inner padding -->
 	<span
-		class="absolute inset-[6px] z-0 rounded-none bg-transparent transition-all duration-300 group-hover:bg-white"
+		class="absolute inset-[6px] z-0 rounded-none bg-transparent transition-all duration-300 group-hover:bg-[#fa5c29]"
 	></span>
 </button>

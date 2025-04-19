@@ -150,7 +150,7 @@
 
 <div
 	class={classNames(
-		'absolute inset-0 mx-auto aspect-[1/1] w-full max-w-[900px] opacity-9',
+		'absolute inset-0 mx-auto aspect-[1/1] w-full max-w-[900px]',
 		className
 	)}
 >

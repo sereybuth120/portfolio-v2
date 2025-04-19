@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
+	import { createEventDispatcher, onMount } from 'svelte';
 	import * as THREE from 'three';
 	import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 	import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
@@ -8,6 +8,20 @@
 	export let modelPath: string = '/icons-3d/react.glb';
 	export let backgroundColor: string = 'transparent';
 	export let autoRotate: boolean = true;
+	export let width: number = 50;
+	export let height: number = 50;
+
+	// Event dispatcher
+	const dispatch = createEventDispatcher();
+
+	// Event handlers
+	function handleMouseEnter(event: MouseEvent) {
+		dispatch('mouseenter', event);
+	}
+
+	function handleMouseLeave(event: MouseEvent) {
+		dispatch('mouseleave', event);
+	}
 
 	// Internal state
 	let containerElement: HTMLDivElement;
@@ -166,12 +180,22 @@
 	});
 </script>
 
-<div bind:this={containerElement} class="renderer-container"></div>
+<div
+	bind:this={containerElement}
+	class="renderer-container"
+	style={`width: ${width}px; height: ${height}px;`}
+	on:mouseenter={handleMouseEnter}
+	on:mouseleave={handleMouseLeave}
+	role="img"
+	aria-label="3D Model"
+></div>
 
 <style>
 	.renderer-container {
-		width: 100%;
-		height: 100%;
 		overflow: hidden;
+		margin: 0;
+		padding: 0;
+		position: relative;
+		cursor: pointer;
 	}
 </style>

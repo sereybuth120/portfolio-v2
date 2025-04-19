@@ -190,12 +190,12 @@
 	}
 
 	.menu-item:hover p {
-		color: #e97100 !important;
+		color: #fa5c29 !important;
 		font-size: 3rem !important;
 	}
 
 	.menu-item.is-navigating-to {
-		color: #e97100 !important;
+		color: #fa5c29 !important;
 		background: black !important;
 	}
 

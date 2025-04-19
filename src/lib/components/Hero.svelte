@@ -19,10 +19,12 @@
 	class:pointer-events-none={menuOpen}
 	class:blur-md={menuOpen}
 >
-	<h1 class="main-text text-left text-8xl" data-content="HOUT SEREYBUTH">HOUT SEREYBUTH</h1>
-	<h1 class="secondary-text text-right text-8xl" data-content="Web">WEB DEVELOPER</h1>
-	<h1 class="secondary-text text-left text-8xl" data-content="Web">WEB DESIGNER</h1>
-	<div class="">
+	<div class="mb-30 w-full">
+		<h1 class="main-text text-left text-8xl" data-content="INDEX">INDEX</h1>
+		<h1 class="secondary-text text-right text-8xl" data-content="Web">WEB DEVELOPER</h1>
+		<h1 class="secondary-text text-left text-8xl" data-content="Web">WEB DESIGNER</h1>
+	</div>
+	<div class="pt-20">
 		<Button on:click={handleMenuClick}>EXPLORE</Button>
 	</div>
 
@@ -37,12 +39,26 @@
 		word-break: break-all;
 		font-family: 'Exo2', sans-serif;
 		font-weight: 500;
+		z-index: 900;
+		position: relative;
 	}
 	.secondary-text {
+		z-index: 900;
+		position: relative;
 		color: rgb(0, 0, 0);
-		-webkit-text-stroke: 2px #e97100;
+		-webkit-text-stroke: 2px #fa5c29;
 		-webkit-font-smoothing: antialiased;
 		-moz-osx-font-smoothing: grayscale;
 		text-rendering: optimizeLegibility;
+	}
+
+	div[class*='pt-20'] {
+		position: relative;
+		z-index: 900;
+	}
+
+	div[class*='inset-0'] {
+		z-index: 1;
+		position: relative;
 	}
 </style>
