@@ -47,6 +47,7 @@
 				></div>
 			{/each}
 
+			<!-- Fix this -->
 			<!-- Shooting Stars -->
 			{#each Array(SHOOTING_STAR_COUNT)
 				.fill(0)
