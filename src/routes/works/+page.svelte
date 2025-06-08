@@ -14,7 +14,7 @@
 	const works = [
 		{
 			title: 'Work 1',
-			description: 'A brief description of work 1 and its key features.',
+			description: 'Work 1 A brief description of work 1 and its key features.',
 			tags: ['React', 'TypeScript', 'Tailwind']
 		},
 		{

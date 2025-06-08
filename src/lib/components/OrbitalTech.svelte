@@ -110,9 +110,9 @@
 
 	.icon-label {
 		position: absolute;
-		bottom: -25px;
+		bottom: 0px;
 		left: 50%;
-		transform: translateX(-50%);
+		/* transform: translateX(-50%); */
 		background: rgba(0, 0, 0, 0.7);
 		color: white;
 		border-radius: 4px;
@@ -127,25 +127,21 @@
 
 	.globe-container {
 		transform-style: preserve-3d;
-		width: min(700px, 90vw);
-		height: min(700px, 90vw);
+		width: min(600px, 90vw);
+		height: min(600px, 90vw);
 		position: absolute;
 		top: 10%;
 		left: 50%;
-		transform: translate(-50%, -50%);
+		transform: translate(-50%, -60%);
 		z-index: 10;
 	}
 
 	.primary-ring {
 		transform-style: preserve-3d;
 		position: absolute;
-		width: 0px;
-		height: 0px;
-		top: 40%;
+		top: -250%;
 		left: 50%;
-		transform: translate(-50%, -70%);
 		z-index: 5;
-		width: 200px;
 		animation: primaryRingRotation var(--speed) linear infinite;
 		animation-play-state: running;
 	}
@@ -156,10 +152,10 @@
 
 	@keyframes primaryRingRotation {
 		from {
-			transform: translate(-50%, -50%) rotateZ(-0deg) rotateX(-5deg) rotateY(0deg);
+			transform: translate(-50%, -50%) rotateZ(0deg) rotateX(-5deg) rotateY(0deg);
 		}
 		to {
-			transform: translate(-50%, -50%) rotateZ(-0deg) rotateX(-5deg) rotateY(-360deg);
+			transform: translate(-50%, -50%) rotateZ(0deg) rotateX(-5deg) rotateY(-360deg);
 		}
 	}
 
