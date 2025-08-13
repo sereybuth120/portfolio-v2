@@ -1,12 +1,32 @@
 <script lang="ts">
+	import { browser } from '$app/environment';
 	import { goto } from '$app/navigation';
+	import { onDestroy, onMount } from 'svelte';
 	import Button from './Button.svelte';
 
-	export let onClick: () => void = () => {};
+	export let onClick: () => void;
 	export let menuOpen: boolean = false;
 
 	let navigatingTo: string | null = null;
 	let isTransitioning = false;
+
+	function handleEscape(event: KeyboardEvent) {
+		if (event.key === 'Escape' && menuOpen) {
+			onClick();
+		}
+	}
+
+	onMount(() => {
+		if (browser) {
+			window.addEventListener('keydown', handleEscape);
+		}
+	});
+
+	onDestroy(() => {
+		if (browser) {
+			window.removeEventListener('keydown', handleEscape);
+		}
+	});
 
 	const menuItems = [
 		{ title: 'WORKS', link: '/works' },
@@ -14,6 +34,11 @@
 		{ title: 'SKILLS', link: '/skills' },
 		{ title: 'CONNECT', link: '/connect' }
 	];
+
+	function handleHomeClick(e: CustomEvent<MouseEvent>) {
+		e.stopPropagation();
+		onClick();
+	}
 
 	async function handleNavigation(link: string, title: string) {
 		if (!document.startViewTransition) {
@@ -46,11 +71,21 @@
 	}
 </script>
 
-<div class="relative h-screen w-screen {menuOpen ? 'opacity-100' : 'opacity-0'}">
-	<div class="menu-layout" class:is-navigating={navigatingTo !== null || isTransitioning}>
+<div
+	class="fixed inset-0 z-50 flex items-center justify-center bg-transparent transition-opacity duration-300"
+	class:opacity-100={menuOpen}
+	class:pointer-events-auto={menuOpen}
+	class:opacity-0={!menuOpen}
+	class:pointer-events-none={!menuOpen}
+>
+	<div
+		class={menuOpen ? 'menu-layout' : ''}
+		class:is-navigating={navigatingTo !== null || isTransitioning}
+	>
 		{#each menuItems as item, index}
 			<button
-				class="menu-item {menuOpen ? 'glitch-in' : ''}"
+				class="menu-item"
+				class:glitch-in={menuOpen}
 				class:is-navigating-to={navigatingTo === item.title}
 				data-title={item.title}
 				style="--item-delay: {index * 0.2}s; view-transition-name: menu-{item.title.toLowerCase()}"
@@ -58,7 +93,7 @@
 			>
 				{#if isTransitioning && navigatingTo === item.title}
 					<p
-						class="flex h-full w-full items-center justify-center text-5xl text-red-500 transition-all duration-500"
+						class="text-white-500 flex h-full w-full items-center justify-center text-5xl transition-all duration-500"
 					>
 						{item.title}
 					</p>
@@ -73,7 +108,7 @@
 		{/each}
 		<div class="button-container">
 			<div class="button-back">
-				<Button on:click={onClick}>Home</Button>
+				<Button on:click={handleHomeClick}>RETURN</Button>
 			</div>
 		</div>
 	</div>
@@ -82,9 +117,9 @@
 <style>
 	:root {
 		--transition-timing: 0.3s ease-in-out;
-		--border-color: rgba(231, 231, 231, 0.1);
-		--hover-color: #ffd700;
-		--bg-color: #2d3436;
+		--border-color: #e7e7e71a;
+		--hover-color: #2a2a2a37;
+		--bg-color: transparent;
 		--glitch-duration: 0.3s;
 		--total-load-time: 1.2s; /* 4 items * 0.2s delay + 0.4s animation */
 	}
@@ -154,6 +189,16 @@
 		contain: paint;
 	}
 
+	.menu-item:hover p {
+		color: #fa5c29 !important;
+		font-size: 3rem !important;
+	}
+
+	.menu-item.is-navigating-to {
+		color: #fa5c29 !important;
+		background: black !important;
+	}
+
 	.glitch-in {
 		animation: glitchIn var(--glitch-duration) steps(2) forwards;
 		animation-delay: var(--item-delay);
@@ -203,7 +248,7 @@
 	}
 
 	.glitch-in::before {
-		background: linear-gradient(90deg, transparent, rgba(255, 0, 128, 0.1));
+		background: linear-gradient(90deg, transparent, rgba(92, 92, 92, 0.1));
 		animation: glitchBefore 0.3s steps(2) forwards;
 		animation-delay: calc(var(--item-delay) + 0.1s);
 		mix-blend-mode: screen;
@@ -211,7 +256,7 @@
 	}
 
 	.glitch-in::after {
-		background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.1));
+		background: linear-gradient(90deg, transparent, rgba(18, 18, 18, 0.1));
 		animation: glitchAfter 0.3s steps(2) forwards;
 		animation-delay: calc(var(--item-delay) + 0.15s);
 		mix-blend-mode: screen;
