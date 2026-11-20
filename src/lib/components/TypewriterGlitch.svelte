@@ -1,12 +1,12 @@
-<script>
+<script lang="ts">
 	import { onDestroy, onMount } from 'svelte';
 
 	// Props
-	export let words = ['web developer', 'web designer'];
-	export let typingSpeed = { min: 50, max: 200 };
-	export let deletingSpeed = { min: 30, max: 130 };
-	export let pauseDuration = 2000;
-	export let nextWordDelay = 500;
+	export let words: string[] = ['web developer', 'web designer'];
+	export let typingSpeed: { min: number; max: number } = { min: 50, max: 200 };
+	export let deletingSpeed: { min: number; max: number } = { min: 30, max: 130 };
+	export let pauseDuration: number = 2000;
+	export let nextWordDelay: number = 500;
 
 	// State
 	let currentWordIndex = 0;
@@ -16,8 +16,8 @@
 	let displayText = '';
 	let isGlitching = false;
 
-	let typewriterTimeout;
-	let glitchInterval;
+	let typewriterTimeout: ReturnType<typeof setTimeout> | undefined;
+	let glitchInterval: ReturnType<typeof setInterval> | undefined;
 
 	function addGlitchEffect() {
 		isGlitching = true;

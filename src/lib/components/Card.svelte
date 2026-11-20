@@ -1,8 +1,11 @@
 <script lang="ts">
+	import type { Snippet } from 'svelte';
+
 	type PaddingType = 'normal' | 'large' | 'none';
 
-	let { padding = 'normal' } = $props<{
+	let { padding = 'normal' as PaddingType, children } = $props<{
 		padding?: PaddingType;
+		children?: Snippet;
 	}>();
 
 	const paddingStyles: Record<PaddingType, string> = {
@@ -12,6 +15,6 @@
 	};
 </script>
 
-<div class={`rounded-lg bg-white shadow-md ${paddingStyles[padding]}`}>
-	<slot />
+<div class={`rounded-lg bg-white shadow-md ${paddingStyles[padding as PaddingType]}`}>
+	{#if children}{@render children()}{/if}
 </div>

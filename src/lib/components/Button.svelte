@@ -1,12 +1,15 @@
 <script lang="ts">
-	import { createEventDispatcher } from 'svelte';
+	import { createEventDispatcher, type Snippet } from 'svelte';
 
 	type Size = 'sm' | 'md' | 'lg';
 	type ButtonType = 'button' | 'submit' | 'reset';
+	type Variant = 'primary' | 'outline' | 'default';
 
-	let { size = 'md', type = 'button' } = $props<{
+	let { size = 'md', type = 'button', variant = 'default', children } = $props<{
 		size?: Size;
 		type?: ButtonType;
+		variant?: Variant;
+		children?: Snippet;
 	}>();
 
 	const dispatch = createEventDispatcher<{
@@ -22,6 +25,12 @@
 		lg: 'w-[200px] group-hover:w-[220px] group-hover:px-14 group-hover:py-5 px-12 py-4 text-lg'
 	};
 
+	const variants: Record<Variant, string> = {
+		default: 'text-gray-300 group-hover:text-black hover:text-black',
+		primary: 'text-white bg-[#fa5c29] hover:bg-[#e04d1a]',
+		outline: 'text-gray-300 border border-gray-300 hover:border-[#fa5c29] hover:text-[#fa5c29]'
+	};
+
 	function handleClick(event: MouseEvent) {
 		dispatch('click', event);
 	}
@@ -29,11 +38,11 @@
 
 <button
 	{type}
-	class={`${baseStyles} ${sizes[size as Size]} text-gray-300 group-hover:text-black hover:text-black`}
+	class={`${baseStyles} ${sizes[size as Size]} ${variants[variant as Variant]}`}
 	onclick={handleClick}
 >
 	<span class="relative z-10">
-		<slot />
+		{#if children}{@render children()}{/if}
 	</span>
 	<!-- Corner brackets -->
 	<span
